@@ -24,13 +24,17 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
 
         # Make Detection
         results = pose.process(image)
+        print(results.pose_landmarks)
         
         # Recolor back to BGR
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
         # Draw Landmarks
-        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS, 
+        mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), # Joint (color is in BGR format)
+        mp_drawing.DrawingSpec(color=(76,71,255), thickness=2, circle_radius=2) # Connection
+        )
         
 
         cv2.imshow("Image", image)
